@@ -2,7 +2,7 @@
 
 # -- Project information
 
-project = 'Lumache'
+project = 'Test-rtd'
 copyright = 'TBA'
 author = 'TBA'
 
