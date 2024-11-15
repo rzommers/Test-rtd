@@ -2,7 +2,7 @@
 
 # -- Project information
 
-project = 'MISO'
+project = 'Lumache'
 copyright = 'TBA'
 author = 'TBA'
 
