@@ -6,9 +6,13 @@
 
 A Linux OS must be used to access the provided tools. If you are already running on a Linux OS (Ubuntu, Fedora, etc.), you should skip this test. If you are running on a Windows OS, one available option to access this content is by using a Linux simulator; for example, WSL.
 
-## OpenMPI (or alternative)
+[Installation Process]
+
+## OpenMPI and System Packages
 
 OpenMPI is a software package that is an implementation of the Message Passing Interface (MPI) standard that is required for a parallel build of MFEM. Alternatives exist, such as MPICH, but OpenMPI is the recommended MPI implementation.
+
+[gcc, cmake, python, patch, openmpi]
 
 ## File Organization
 
@@ -19,6 +23,8 @@ For late-stage integration to work properly, all files should be downloaded and 
 Two dependencies are required in order to build the MFEM library, used for finite element discretization: HYPRE and METIS.
 
 ### HYPRE
+
+[HYPRE website; download version]
 
 ```
 cd Dependencies/hypre/src
@@ -31,6 +37,8 @@ export PATH=$PATH:[path_to_motor_folder]/Installations/hypre
 ```
 
 ### METIS
+
+[METIS github; download version]
 
 ```
 cd Dependencies/metis
@@ -47,7 +55,7 @@ PUMI is a library that is optional for standalone MFEM, but is required for cert
 
 ### OpenCASCADE
 
-
+[Specific folder, check for alternatives]
 
 ### ESP
 
@@ -73,7 +81,7 @@ cd ../../..
 cmake .. \
   -DCMAKE_C_COMPILER="MPICC" \
   -DCMAKE_CXX_COMPILER="MPICXX" \
-  -DCMAKE_INSTALL_PREFIX="/[path_to_motor_folder]/Installations/core \
+  -DCMAKE_INSTALL_PREFIX="/[path_to_motor_folder]/Installations/core" \
   -DBUILD_SHARED_LIBS=ON \
   -DSCOREC_CXX_OPTIMIZE=ON \
   -DSCOREC_CXX_SYMBOLS=ON \
@@ -92,6 +100,7 @@ cd core
 git checkout egads-dev
 mkdir build
 cd build
+# move config_core.sh (see above) into build folder
 source config_core.sh
 make -j 4
 make install
@@ -126,6 +135,7 @@ cd mfem
 git checkout odl
 mkdir build
 cd build
+# move config_mfem.sh (see above) into build folder
 source config_mfem.sh
 make -j 4
 make install
@@ -173,6 +183,7 @@ cd MISO
 git checkout dev
 mkdir build
 cd build
+# move config_miso.sh (see above) into build folder
 source config_miso.sh
 make -j 4
 make install
@@ -188,16 +199,47 @@ While the supporting MFEM and MISO libraries are made C++, the code that is used
 
 A virtual environment must be made to be able to access Python libraries while in the terminal.
 
-### Dependency Downloads
+```
+python -m venv source /[path_to_motor_folder]/python
+source /[path_to_motor_folder]/python/bin/activate
+```
 
-The following Python libraries must be downloaded: MotorModel, mphys, omESP, and build_pyoptsparse.
+### Dependency Downloads and Installations
 
-### Dependency Installations
+```
+cd MISO
+pip install -e .
+cd ../Dependencies
 
-There are a number of Python installations that must be done, but it is important that the order in which they are installed is in a certain way. The below instructions follow the exact order.
+git clone https://github.com/tuckerbabcock/MotorModel.git
+cd MotorModel
+git checkout 12d953921a4dc926ac6ef31018de61f35b664014
+pip install -e .
+cd ..
+
+git clone https://github.com/tuckerbabcock/mphys.git
+cd mphys
+git checkout c67212caca8ecb4a934b4b4bb05c1989b7041f03
+pip install -e .
+cd ..
+
+git clone https://github.com/tuckerbabcock/omESP.git
+cd omESP
+git checkout b421974a6932780f5b80096228cb2bcf0d63c931
+pip install -e .
+cd ../..
+```
 
 ### Building PyOptSparse
 
-PyOptSparse is the final installation for Python
+PyOptSparse is the final installation for Python.
+
+```
+git clone https://github.com/OpenMDAO/build_pyoptsparse.git
+cd build_pyoptsparse/
+pip install -e .
+python build_pyoptsparse.py -s '/[path_to_motor_folder]/SNOPT'
+cd ..
+```
 
 ## Running the Analysis
