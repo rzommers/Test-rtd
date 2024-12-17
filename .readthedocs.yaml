@@ -9,9 +9,9 @@ python:
   install:
     - requirements: docs/requirements.txt
 
-sphinx:
-  configuration: docs/source/conf.py
-  fail_on_warning: false
+# sphinx:
+ # configuration: docs/source/conf.py
+  # fail_on_warning: false
 
 mkdocs:
   configuration: mkdocs.yml
