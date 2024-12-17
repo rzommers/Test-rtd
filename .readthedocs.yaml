@@ -12,3 +12,6 @@ python:
 sphinx:
   configuration: docs/source/conf.py
   fail_on_warning: false
+
+mkdocs:
+  configuration: mkdocs.yml
